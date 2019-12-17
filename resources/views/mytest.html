@@ -1,0 +1,147 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Master page</title>
+    <link rel="stylesheet" href="http://gcom.me/css/app.css" >
+    <script type="text/javascript" src="http://gcom.me/js/app.js"></script>
+
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.0/css/bootstrap.min.css">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.0/js/bootstrap.min.js"></script>
+    <script src="https://code.jquery.com/jquery-1.12.4.min.js"></script>
+
+    <link rel="stylesheet" href="https://kendo.cdn.telerik.com/2019.3.1023/styles/kendo.common.min.css"/>
+    <link rel="stylesheet" href="https://kendo.cdn.telerik.com/2019.3.1023/styles/kendo.rtl.min.css"/>
+    <link rel="stylesheet" href="https://kendo.cdn.telerik.com/2019.3.1023/styles/kendo.silver.min.css"/>
+    <link rel="stylesheet" href="https://kendo.cdn.telerik.com/2019.3.1023/styles/kendo.mobile.all.min.css"/>
+
+    <script src="https://kendo.cdn.telerik.com/2019.3.1023/js/jszip.min.js"></script>
+    <script src="https://kendo.cdn.telerik.com/2019.3.1023/js/kendo.all.min.js"></script>
+    
+</head>
+<body>
+    <div id="example">
+    <div id="megaStore">
+        <ul id="menu">
+            <li> <a href="/"> Home </a> </li>
+            <li>
+                PU-management
+                <ul>
+                    <li><a href="/puImport"> PU Imort Data(LOI/PU Plan) </a></li>
+                    <li> <a href="/ConvertForeCastMaster">Convert Forecast Master </a></li>
+                    <li> <a href="/ConvertForeCastDetail">Convert Forecast Detail </a></li>
+                    <li> <a href="/CreateAllPOEstimate">Create PO Estimate </a></li>
+                    <li> <a href="/ShowPOList">PO List </a></li>
+                    <li> <a href="/test">test </a></li>
+                    <li> <a href="/ShowUseContainer">PU-Container Chart </a></li>
+                    <li> <a href="/index"> index </a></li>
+                </ul>
+            </li>
+            <li>
+                Blog
+            </li>
+            <li>
+                Company
+            </li>
+            <li>
+                Events
+            </li>
+            <li disabled="disabled">
+                News
+            </li>
+        </ul>  
+    </div>
+         <br><br> <br><br> 
+ <div id="example">
+    <div id="grid"></div>
+    <div id="wnd">
+      <div id="wrapped-grid"></div>
+    </div>
+</div>
+</body>
+</html>
+        <script>
+    $("#menu").kendoMenu();
+  
+
+    $(document).ready(function() {
+    var ds = [{"id":174,"title":"Jason","the_week":15,"the_year":2019},{"id":175,"title":"Roger","the_week":15,"the_year":2019}];
+          $("#grid").kendoGrid({
+            dataSource: {
+            data:ds ,
+              schema: {
+                model: {
+                  fields: {
+                    id: { type: "number" },
+                    title:  { type: "string" },
+                    the_week: { type: "number" },
+                    the_year: { type: "number" }
+                  }
+                }
+              },
+              pageSize: 20,
+              serverPaging: true,
+              serverFiltering: true,
+              serverSorting: true
+            },
+            height: 300,
+            filterable: true,
+            sortable: true,
+            pageable: true,
+            columns: [{
+              field:"id",
+              filterable: false
+            },
+                      "title",
+                      {
+                        field: "the_week",
+                        title: "the_week"
+                      }, {
+                        field: "the_year",
+                        title: "the_year"
+                      } 
+                     ]
+          });
+
+          var wnd = $("#wnd").kendoWindow({
+            height: 500,
+            width: 1200,
+            visible: false
+          }).data("kendoWindow");
+
+         
+
+          //apply the activate event, which is thrown only after the animation is played out
+          wnd.one("activate", function() {
+            wrappedGrid.resize();
+          });
+
+          $('table').on('click', function(e){
+          	if(e.target.nodeName == 'TD'){
+            	wnd.title(e.target.innerText);
+              e.preventDefault();
+
+              var products = [{"sku":"D2CL","title":"Dumbbell - Adjustable - 40lbs","quantity":4814},{"sku":"D8UJ","title":"Dumbbell - Adjustable - 50lbs","quantity":4857},{"sku":"D1IB","title":"Dumbbell - Adjustable - 60lbs","quantity":4814},{"sku":"DL2Z","title":"Dumbbell - Adjustable - 52.5lbs","title":"Interlocking Exercise Mat - Gray - 36sqft - 36pc V1","quantity":4814},{"sku":"3MX1","title":"Heavy Wall Mount Chin Up Bar","quantity":4791}];
+
+            var wrappedGrid = $("#wrapped-grid").kendoGrid({
+            dataSource: {
+              data: products,
+              pageSize: 500
+            },
+            height: 400,
+            scrollable: true,
+            columns: [
+              { field:"sku",width: "120px"},
+              { field: "title", title: "title", width: "350px" },
+              { field: "quantity", title: "quantity:", width: "80px" }
+            ]
+          }).data("kendoGrid");
+
+              wnd.open();
+            }
+          })
+        });
+</script>
